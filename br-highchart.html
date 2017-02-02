@@ -1,0 +1,90 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="highcharts.html">
+
+<!--
+`br-highchart`
+A polymer element implementation of Highcharts
+
+@demo demo/index.html
+-->
+
+<dom-module id="br-highchart">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <div id="chartContainer">
+
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'br-highchart',
+
+      properties: {
+        options: {
+          type: Object,
+          // value: function(){ return {}; }
+        },
+        series: {
+          type: Array,
+          // value: function(){ return []; }
+        },
+        _chart: {
+          type: Object,
+          // value: function(){ return {}; }
+        }
+      },
+
+      observers: [
+        '_observeSeries(series.*)',
+        '_observeOptions(options.*)',
+        '_observeChart(_chart.*)'
+      ],
+
+      ready: function(){
+        var chart = new Highcharts.Chart(this.$.chartContainer,this.options);
+        this.set('_chart',chart);
+        console.log("_chart initialized.")
+      },
+
+      _observeSeries: function(seriesChange){
+        console.log("_observeSeries initial",seriesChange);
+        this.async(function(){
+          var series = seriesChange.base;
+          if(this._chart){
+            console.log("_observeSeries:",series);
+            while(this._chart.series.length > 0){
+              this._chart.series[0].remove(false);
+            };
+            for(var i=0; i<series.length; i++){
+              this._chart.addSeries(series[i],false);
+            }
+            this._chart.redraw();
+          }
+        });
+      },
+
+      _observeOptions: function(optionsChange){
+        console.log("_observeOptions initial",optionsChange);
+        this.async(function(){
+          var options = optionsChange.base;
+          if(this._chart){
+            console.log("_observeOptions:",options);
+            this._chart.update(options);
+          }
+        });
+      },
+
+      _observeChart: function(chartChange){
+        console.log("_observeChart:",chartChange);
+      }
+
+    });
+  </script>
+</dom-module>

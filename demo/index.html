@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>br-highchart demo</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../br-highchart.html">
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+    </style>
+  </head>
+  <body>
+    <div class="vertical-section-container centered">
+      <h3>Basic br-highchart demo</h3>
+      <demo-snippet>
+        <template>
+          <br-highchart options='{
+            "title": {
+              "text": "This is a test."
+            },
+            "xAxis": {
+              "categories": ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
+            },
+            "series": [{
+              "name":"Series 1",
+              "data":[1,2,4,3,5,7,6,9,8,10,11,12]
+            },{
+              "name":"Series 2",
+              "data":[12,10,11,8,9,5,7,6,2,4,3,1]
+            }]
+          }'></br-highchart>
+        </template>
+      </demo-snippet>
+
+      <h3>Basic br-highchart demo with separate series</h3>
+      <demo-snippet>
+        <template>
+          <br-highchart options='{
+            "title": {
+              "text": "This is a test 2."
+            },
+            "xAxis": {
+              "categories": ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
+            },
+            "series": []
+          }' series='[{
+            "name":"Series 3",
+            "data":[6,10,2,1,4,5,3,11,7,9,12,8]
+          },{
+            "name":"Series 4",
+            "data":[11,10,5,1,4,12,9,8,2,3,7,6]
+          }]'></br-highchart>
+        </template>
+      </demo-snippet>
+    </div>
+  </body>
+</html>
