@@ -67,6 +67,14 @@ A polymer element implementation of Highcharts
         console.log("_chart initialized.")
       },
 
+      attached: function(){
+        this.async(function(){
+          if(this._chart){
+            thiss._chart.reflow();
+          }
+        })
+      },
+
       _observeSeries: function(seriesChange){
         console.log("_observeSeries initial",seriesChange);
         this.async(function(){
