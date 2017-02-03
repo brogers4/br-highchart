@@ -15,6 +15,15 @@ A polymer element implementation of Highcharts
       :host {
         display: block;
       }
+
+      :host([stretch]) .highcharts-container {
+        width: 100%;
+        height: 100%;
+      }
+      :host([stretch]) #chartContainer {
+        width: 100%;
+        height: 100%;
+      }
     </style>
     <div id="chartContainer">
 
@@ -28,16 +37,17 @@ A polymer element implementation of Highcharts
 
       properties: {
         options: {
-          type: Object,
-          // value: function(){ return {}; }
+          type: Object
         },
         series: {
-          type: Array,
-          // value: function(){ return []; }
+          type: Array
+        },
+        stretch: {
+          type: Boolean,
+          value: false
         },
         _chart: {
-          type: Object,
-          // value: function(){ return {}; }
+          type: Object
         }
       },
 
