@@ -58,13 +58,12 @@ A polymer element implementation of Highcharts
       observers: [
         '_observeSeries(series.*)',
         '_observeOptions(options.*)',
-        '_observeChart(_chart.*)'
+        // '_observeChart(_chart.*)'
       ],
 
       ready: function(){
         var chart = new Highcharts.Chart(this.$.chartContainer,this.options);
         this.set('_chart',chart);
-        console.log("_chart initialized.")
       },
 
       attached: function(){
@@ -76,7 +75,6 @@ A polymer element implementation of Highcharts
       },
 
       _observeSeries: function(seriesChange){
-        console.log("_observeSeries initial",seriesChange);
         this.async(function(){
           var series = seriesChange.base;
           if(this._chart){
@@ -93,11 +91,9 @@ A polymer element implementation of Highcharts
       },
 
       _observeOptions: function(optionsChange){
-        console.log("_observeOptions initial",optionsChange);
         this.async(function(){
           var options = optionsChange.base;
           if(this._chart){
-            console.log("_observeOptions:",options);
             this._chart.update(options);
           }
         });
