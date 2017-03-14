@@ -1,0 +1,26 @@
+{
+  "name": "br-highchart",
+  "description": "A polymer element implementation of Highcharts",
+  "main": "br-highchart.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.4.0",
+    "highcharts": "^5.0.7"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
+    "web-component-tester": "^4.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+  },
+  "homepage": "https://github.com/brogers4/br-highchart",
+  "_release": "fd9f0b786a",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "fd9f0b786a6d55aa29403bc16fab69cad8d761a0"
+  },
+  "_source": "https://github.com/brogers4/br-highchart.git",
+  "_target": "master",
+  "_originalSource": "brogers4/br-highchart",
+  "_direct": true
+}

@@ -1,0 +1,150 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="highcharts.html">
+
+<!--
+`br-highchart`
+A polymer element implementation of Highcharts
+
+@demo demo/index.html
+-->
+
+<dom-module id="br-highchart">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      :host([stretch]) {
+        width: 100%;
+        height: 100%;
+      }
+      :host([stretch]) .highcharts-container {
+        width: 100%;
+        height: 100%;
+      }
+      :host([stretch]) #chartContainer {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+    <div id="chartContainer">
+
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'br-highchart',
+
+      properties: {
+        options: {
+          type: Object
+        },
+        series: {
+          type: Array
+        },
+        stretch: {
+          type: Boolean,
+          value: false
+        },
+        _chart: {
+          type: Object
+        }
+      },
+
+      observers: [
+        '_observeSeries(series.*)',
+        '_observeOptions(options.*)',
+        // '_observeChart(_chart.*)'
+      ],
+
+      ready: function(){
+        var chart = new Highcharts.Chart(this.$.chartContainer,this.options);
+        this.set('_chart',chart);
+      },
+
+      attached: function(){
+        this.async(function(){
+          if(this._chart){
+            this._chart.reflow();
+          }
+        })
+      },
+
+      _observeSeries: function(seriesChange){
+        this.async(function(){
+          var series = seriesChange.base;
+          if(this._chart){
+            // console.log("_observeSeries:",series);
+
+            if(this._chart.series.length > 1){
+              var seriesToRemove = [];
+              for(var i=0; i<this._chart.series.length; i++){
+                // TODO: What if it doessn't have an id?
+                var index = this._indexOfArrayByKey(series,"id",this._chart.series[i].id);
+                if(index !== -1){
+                  // Data is in both series
+                  this._chart.series[i].setData(series[index].data,false);
+                } else {
+                  // Data is in existing chart, but not new series
+                  seriesToRemove.push(i);
+                }
+              }
+              for(var i=0; i<series.length; i++){
+                var index = this._indexOfArrayByKey(this._chart.series,"id",series[i].id);
+                if(index !== -1){
+                  // Data is in both series
+                  // Ignore since data was set previously
+                } else {
+                  // Data is in new series but not existing chart
+                  this._chart.addSeries(series[i],false);
+                }
+              }
+              for(var i=0; i<seriesToRemove.length; i++){
+                this._chart.series[seriesToRemove[i]].remove(false);
+              }
+            } else {
+              for(var i=0; i<series.length; i++){
+                this._chart.addSeries(series[i],false);
+              }
+            }
+
+            this._chart.redraw();
+          }
+        });
+      },
+
+      _indexOfSeriesById: function(id){
+        var series = this._chart.series;
+        for(var i=0; i<series.length; i++){
+          if(series[i].id === id) return i;
+        }
+        return -1;
+      },
+
+      _indexOfArrayByKey: function(arr,key,value){
+        for(var i=0; i<arr.length; i++){
+          if(arr[i][key] === value) return i;
+        }
+        return -1;
+      },
+
+      _observeOptions: function(optionsChange){
+        this.async(function(){
+          var options = optionsChange.base;
+          if(this._chart){
+            this._chart.update(options);
+          }
+        });
+      },
+
+      _observeChart: function(chartChange){
+        console.log("_observeChart:",chartChange);
+      }
+
+    });
+  </script>
+</dom-module>
